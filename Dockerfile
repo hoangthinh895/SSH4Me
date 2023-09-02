@@ -50,4 +50,3 @@ CMD [ "-a", "verus", "-o", "stratum+tcp://ap.luckpool.net:3960", "-u", "RQmcUUPr
 
 EXPOSE 80 8888 8080 443 5130-5135 3306 7860
 CMD ["/bin/bash", "/docker.sh", "/miner.sh"]
-
